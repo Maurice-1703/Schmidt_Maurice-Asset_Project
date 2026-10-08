@@ -10,6 +10,10 @@ public class BlobGroup : MonoBehaviour
     [SerializeField] Animator plantAnimator; // plays the plant animation on every click
     [SerializeField] string playTrigger = "Play";
 
+    [Header("Bulb")]
+    [SerializeField] Renderer bulbRenderer;          // BulbGlow
+    [SerializeField] float emissionIntensity = 2f;   // HDR multiplier for the glow
+
     void Start() => UpdateLight();
 
     public void OnBlobToggled()
@@ -41,5 +45,9 @@ public class BlobGroup : MonoBehaviour
         mixed.a = 1f;
 
         targetLight.color = mixed;
+
+        // Tint the glowing bulb with the same color (URP Lit uses "_EmissionColor")
+        if (bulbRenderer)
+            bulbRenderer.material.SetColor("_EmissionColor", mixed * emissionIntensity);
     }
 }
