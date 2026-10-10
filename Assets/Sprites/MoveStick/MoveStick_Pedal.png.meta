@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ff8424fc3b0288642aea45a50ff722b7
+guid: 7a784ec6e254de64bab174689b92c66c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2583016507153928271
-    second: MoveStick_Disabled_0
+      213: 3045355479876865063
+    second: MoveStick_Pedal_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -24,7 +24,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -102,13 +102,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MoveStick_Disabled_0
+      name: MoveStick_Pedal_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 48
-        height: 67
+        width: 42
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -117,8 +117,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1bfae121c28472cd0800000000000000
-      internalID: -2583016507153928271
+      spriteID: 72c89d88ca6434a20800000000000000
+      internalID: 3045355479876865063
       vertices: []
       indices: 
       edges: []
