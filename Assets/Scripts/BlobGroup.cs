@@ -2,13 +2,17 @@ using UnityEngine;
 
 public class BlobGroup : MonoBehaviour
 {
-    [SerializeField] Light targetLight;           // the light inside the bulb
-    [SerializeField] PlantLampController bulb;       // tints the bulb's emission with the same color
+    [SerializeField] Light targetLight;            // the light inside the bulb
+    [SerializeField] PlantLampController bulb;     // tints the bulb's emission with the same color
     [SerializeField] ColorBlob[] blobs;
-    [SerializeField] Color allOffColor = Color.white; // fallback when every blob is off
+    [SerializeField] Color allOffColor = new Color(0.35f, 0.35f, 0.35f); // fallback when every blob is off
+
+    [Header("All blobs on")]
+    [SerializeField] Color allOnBulbColor = new Color32(0xEA, 0xC2, 0x4B, 0xFF); // warm base color instead of pure white
+    [SerializeField] bool alsoTintLight = false;   // use the warm color for the light as well
 
     [Header("Optional")]
-    [SerializeField] Animator plantAnimator;      // plays the plant animation on every click
+    [SerializeField] Animator plantAnimator;       // plays the plant animation on every click
     [SerializeField] string playTrigger = "Play";
 
     void Start() => UpdateLight();
@@ -23,16 +27,16 @@ public class BlobGroup : MonoBehaviour
     {
         // Additive color mixing: sum up the channel colors of all active blobs
         Color mixed = Color.black;
-        bool anyOn = false;
+        int activeCount = 0;
 
         foreach (var blob in blobs)
         {
             if (!blob.IsOn) continue;
             mixed += blob.ChannelColor;
-            anyOn = true;
+            activeCount++;
         }
 
-        if (!anyOn) mixed = allOffColor;
+        if (activeCount == 0) mixed = allOffColor;
 
         // Clamp each channel to 0..1 and force full opacity
         // (adding colors also adds their alpha values)
@@ -41,8 +45,12 @@ public class BlobGroup : MonoBehaviour
         mixed.b = Mathf.Clamp01(mixed.b);
         mixed.a = 1f;
 
-        // Same color for the light and the glowing bulb
-        targetLight.color = mixed;
-        if (bulb) bulb.SetEmissionColor(mixed);
+        // With all blobs on, the warm base color replaces pure white
+        bool allOn = activeCount == blobs.Length;
+        Color bulbColor  = allOn ? allOnBulbColor : mixed;
+        Color lightColor = (allOn && alsoTintLight) ? allOnBulbColor : mixed;
+
+        targetLight.color = lightColor;
+        if (bulb) bulb.SetEmissionColor(bulbColor);
     }
 }

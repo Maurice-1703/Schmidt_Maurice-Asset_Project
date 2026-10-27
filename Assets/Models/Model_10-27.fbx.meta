@@ -3,7 +3,52 @@ guid: 585ae4c9189e34c0ea1ad48aa9e8218d
 ModelImporter:
   serializedVersion: 24600
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Base
+    second: {fileID: 2100000, guid: 4c1c06f7f80ed441fb54c6d54ec4268e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black
+    second: {fileID: 2100000, guid: ff684bcff473741169bb34883ed47218, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Eyes
+    second: {fileID: 2100000, guid: 3bd58fc6060d54d21a27081e8e559f85, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Head
+    second: {fileID: 2100000, guid: 15910029823a442f4a73afadca120b83, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: InnerHead
+    second: {fileID: 2100000, guid: 981a4fe7d23cb44dc88182d38b63149b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: LightBulbOff
+    second: {fileID: 2100000, guid: 25575a00ccf2f42d5a4fbcf51025f197, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: LightBulbOn
+    second: {fileID: 2100000, guid: f7946aa3036e24648a493ba29e631846, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal
+    second: {fileID: 2100000, guid: 15353bcd2d06349dba5c88bfdb58bd4e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: White
+    second: {fileID: 2100000, guid: e33e845ea29254e25b92178a7b66ec4d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

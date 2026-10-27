@@ -1185,7 +1185,7 @@ Light:
   serializedVersion: 13
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.1
+  m_Intensity: 0.3
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1228,7 +1228,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 5000
+  m_ColorTemperature: 4250
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
@@ -2447,7 +2447,9 @@ MonoBehaviour:
   - {fileID: 155360056}
   - {fileID: 1863179803}
   - {fileID: 625555413}
-  allOffColor: {r: 1, g: 1, b: 1, a: 1}
+  allOffColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
+  allOnBulbColor: {r: 1, g: 0.8801471, b: 0.5235849, a: 1}
+  alsoTintLight: 1
   plantAnimator: {fileID: 991185740}
   playTrigger: Play
 --- !u!1 &952612765
@@ -4043,7 +4045,7 @@ PrefabInstance:
     - target: {fileID: -7660426163394998157, guid: 585ae4c9189e34c0ea1ad48aa9e8218d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2992213482218533392, guid: 585ae4c9189e34c0ea1ad48aa9e8218d, type: 3}
+      objectReference: {fileID: 2100000, guid: 25575a00ccf2f42d5a4fbcf51025f197, type: 2}
     - target: {fileID: 919132149155446097, guid: 585ae4c9189e34c0ea1ad48aa9e8218d, type: 3}
       propertyPath: m_Name
       value: Model_10-27
@@ -4058,6 +4060,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 585ae4c9189e34c0ea1ad48aa9e8218d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1727856316}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 585ae4c9189e34c0ea1ad48aa9e8218d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1727856320}
   m_SourcePrefab: {fileID: 100100000, guid: 585ae4c9189e34c0ea1ad48aa9e8218d, type: 3}
 --- !u!1 &1727856314 stripped
 GameObject:
@@ -4082,12 +4087,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MaterialSwitcher
   targetRenderer: {fileID: 1727856315}
-  offMaterial: {fileID: 2992213482218533392, guid: 585ae4c9189e34c0ea1ad48aa9e8218d, type: 3}
-  onMaterial: {fileID: -4676409408665066180, guid: 585ae4c9189e34c0ea1ad48aa9e8218d, type: 3}
+  offMaterial: {fileID: 2100000, guid: 25575a00ccf2f42d5a4fbcf51025f197, type: 2}
+  onMaterial: {fileID: 2100000, guid: f7946aa3036e24648a493ba29e631846, type: 2}
   startOn: 0
   intensitySlider: {fileID: 23351989}
   emissionProperty: _EmissionColor
-  emissionColor: {r: 0.91764706, g: 0.7607843, b: 0.29411766, a: 1}
+  emissionColor: {r: 1, g: 0.8777738, b: 0.5254902, a: 1}
   minIntensity: 0.5
   maxIntensity: 1.5
 --- !u!4 &1727856318 stripped
@@ -4095,6 +4100,27 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8999719222327192782, guid: 585ae4c9189e34c0ea1ad48aa9e8218d, type: 3}
   m_PrefabInstance: {fileID: 1727856313}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1727856320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1727856314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db9b13ccee2487a449c118d88f3ec2b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoveStickControllable
+  joystick: {fileID: 773002092}
+  mode: 0
+  plane: 0
+  moveSpeed: 3
+  relativeTo: {fileID: 330585546}
+  rotateSpeed: 90
+  maxPitch: 60
+  invertX: 0
+  invertY: 0
 --- !u!1 &1731171836
 GameObject:
   m_ObjectHideFlags: 0
