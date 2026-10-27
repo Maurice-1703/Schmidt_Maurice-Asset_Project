@@ -2,17 +2,14 @@ using UnityEngine;
 
 public class BlobGroup : MonoBehaviour
 {
-    [SerializeField] Light targetLight;
+    [SerializeField] Light targetLight;           // the light inside the bulb
+    [SerializeField] PlantLampController bulb;       // tints the bulb's emission with the same color
     [SerializeField] ColorBlob[] blobs;
-    [SerializeField] Color allOffColor = new Color(0.35f, 0.35f, 0.35f); // fallback when every blob is off
+    [SerializeField] Color allOffColor = Color.white; // fallback when every blob is off
 
     [Header("Optional")]
-    [SerializeField] Animator plantAnimator; // plays the plant animation on every click
+    [SerializeField] Animator plantAnimator;      // plays the plant animation on every click
     [SerializeField] string playTrigger = "Play";
-
-    [Header("Bulb")]
-    [SerializeField] Renderer bulbRenderer;          // BulbGlow
-    [SerializeField] float emissionIntensity = 2f;   // HDR multiplier for the glow
 
     void Start() => UpdateLight();
 
@@ -44,10 +41,8 @@ public class BlobGroup : MonoBehaviour
         mixed.b = Mathf.Clamp01(mixed.b);
         mixed.a = 1f;
 
+        // Same color for the light and the glowing bulb
         targetLight.color = mixed;
-
-        // Tint the glowing bulb with the same color (URP Lit uses "_EmissionColor")
-        if (bulbRenderer)
-            bulbRenderer.material.SetColor("_EmissionColor", mixed * emissionIntensity);
+        if (bulb) bulb.SetEmissionColor(mixed);
     }
 }
