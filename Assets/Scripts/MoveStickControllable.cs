@@ -1,85 +1,82 @@
 using UnityEngine;
 
-public class MoveStickControllable : MonoBehaviour
+// Bends the lamp's neck with the joystick
+// The total bend angle is spread evenly over all neck bones (Neck_1 .. Neck_5),
+// so the stem curves smoothly, the base and the lamp root stay where they are
+public class NeckBendController : MonoBehaviour
 {
-    public enum Mode { Move, Rotate }
-    public enum MovePlane { Ground, Vertical } // XZ (floor) or XY (wall)
-
     [SerializeField] MoveStickController joystick;
-    [SerializeField] Mode mode = Mode.Move;
 
-    [Header("Move")]
-    [SerializeField] MovePlane plane = MovePlane.Ground;
-    [SerializeField] float moveSpeed = 3f;   // units per second
-    [SerializeField] Transform relativeTo;   // optional, e.g. the camera: "up" on the joystick = away from it
+    [Header("Bones")]
+    [SerializeField] Transform[] neckBones; // Neck_1 .. Neck_5, from bottom to top
+    [SerializeField] Transform headBone;    // optional: Head, tilts a little extra (aiming the light)
+    [SerializeField, Range(0f, 1f)] float headShare = 0.2f; // part of the bend the head gets on top
 
-    [Header("Rotate")]
-    [SerializeField] float rotateSpeed = 90f; // degrees per second
-    [SerializeField] float maxPitch = 60f;    // limit for tilting up/down
-    
-    [Header("Input")]
-    [SerializeField] bool invertX; // flip left/right
-    [SerializeField] bool invertY; // flip up/down
+    [Header("Bend")]
+    [SerializeField] float bendSpeed = 60f; // degrees per second (whole neck)
+    [SerializeField] float maxBend = 45f;   // limit per direction (whole neck)
+    [SerializeField] bool returnToRest;     // spring back when the joystick is released
+    [SerializeField] float returnSpeed = 90f;
 
-    float yaw, pitch;
+    [Header("Axes (bone local space)")]
+    // Blender bones point along their local Y axis, so they bend around X (forward/back)
+    // and Z (sideways). Swap or invert here if the neck bends the wrong way.
+    [SerializeField] Vector3 forwardAxis = Vector3.right;   // joystick up/down
+    [SerializeField] Vector3 sideAxis = Vector3.forward;    // joystick left/right
+    [SerializeField] bool invertX;
+    [SerializeField] bool invertY;
 
-    void Start()
+    Quaternion[] neckRest;
+    Quaternion headRest;
+    Vector2 bend; // current total bend in degrees: x = sideways, y = forward/back
+
+    void Awake()
     {
-        // Start from the object's current rotation
-        Vector3 euler = transform.localEulerAngles;
-        yaw = euler.y;
-        pitch = euler.x > 180f ? euler.x - 360f : euler.x; // convert 0..360 to -180..180
+        // Remember the rest pose so the bend is always added on top of it
+        neckRest = new Quaternion[neckBones.Length];
+        for (int i = 0; i < neckBones.Length; i++)
+            neckRest[i] = neckBones[i].localRotation;
+
+        if (headBone) headRest = headBone.localRotation;
     }
 
     void Update()
-{
-    if (!joystick) return;
-
-    Vector2 input = joystick.Direction;
-    if (input == Vector2.zero) return; // joystick centered or switched off
-
-    // Optional axis flips, e.g. when the object faces the camera
-    if (invertX) input.x = -input.x;
-    if (invertY) input.y = -input.y;
-
-    if (mode == Mode.Move) Move(input);
-    else Rotate(input);
-}
-
-    void Move(Vector2 input)
     {
-        Vector3 right, forwardOrUp;
+        Vector2 input = joystick ? joystick.Direction : Vector2.zero;
+        if (invertX) input.x = -input.x;
+        if (invertY) input.y = -input.y;
 
-        if (plane == MovePlane.Ground)
+        if (input != Vector2.zero)
         {
-            // Joystick up/down = forward/back on the floor, left/right = sideways
-            right       = relativeTo ? Flatten(relativeTo.right)   : Vector3.right;
-            forwardOrUp = relativeTo ? Flatten(relativeTo.forward) : Vector3.forward;
+            bend += input * bendSpeed * Time.deltaTime;
+            bend.x = Mathf.Clamp(bend.x, -maxBend, maxBend);
+            bend.y = Mathf.Clamp(bend.y, -maxBend, maxBend);
         }
-        else
+        else if (returnToRest)
         {
-            // Joystick up/down = up/down, left/right = sideways
-            right       = relativeTo ? relativeTo.right : Vector3.right;
-            forwardOrUp = relativeTo ? relativeTo.up    : Vector3.up;
+            bend = Vector2.MoveTowards(bend, Vector2.zero, returnSpeed * Time.deltaTime);
         }
-
-        Vector3 direction = right * input.x + forwardOrUp * input.y;
-        transform.position += direction * moveSpeed * Time.deltaTime;
     }
 
-    void Rotate(Vector2 input)
+    // LateUpdate runs after the Animator, so an idle animation cannot overwrite the bend
+    void LateUpdate()
     {
-        yaw   += input.x * rotateSpeed * Time.deltaTime; // left/right = turn
-        pitch -= input.y * rotateSpeed * Time.deltaTime; // up = tilt up
-        pitch = Mathf.Clamp(pitch, -maxPitch, maxPitch);
+        if (neckBones.Length == 0) return;
 
-        transform.localRotation = Quaternion.Euler(pitch, yaw, 0f);
-    }
+        // Each bone gets the same share, so 5 bones x 9 degrees = 45 degrees in total
+        float neckShare = 1f - (headBone ? headShare : 0f);
+        Vector2 perBone = bend * neckShare / neckBones.Length;
+        Quaternion offset = Quaternion.AngleAxis(perBone.y, forwardAxis) * Quaternion.AngleAxis(perBone.x, sideAxis);
 
-    // Removes the vertical part so movement stays on the floor
-    static Vector3 Flatten(Vector3 v)
-    {
-        v.y = 0f;
-        return v.normalized;
+        for (int i = 0; i < neckBones.Length; i++)
+            neckBones[i].localRotation = neckRest[i] * offset;
+
+        if (headBone)
+        {
+            Vector2 head = bend * headShare;
+            headBone.localRotation = headRest
+                * Quaternion.AngleAxis(head.y, forwardAxis)
+                * Quaternion.AngleAxis(head.x, sideAxis);
+        }
     }
 }

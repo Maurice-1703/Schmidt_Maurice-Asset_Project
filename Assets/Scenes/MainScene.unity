@@ -203,7 +203,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1403788516}
   m_Direction: 0
   m_MinValue: 0.05
-  m_MaxValue: 1
+  m_MaxValue: 0.45
   m_WholeNumbers: 0
   m_Value: 0.05
   m_OnValueChanged:
@@ -346,7 +346,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -12, y: 193}
+  m_AnchoredPosition: {x: 0, y: 175}
   m_SizeDelta: {x: 399, y: 78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &101729696
@@ -628,7 +628,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &302439222
 Transform:
   m_ObjectHideFlags: 0
@@ -824,13 +824,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.12639807, y: -0, z: -0, w: 0.99197966}
-  m_LocalPosition: {x: 0, y: 1.379, z: -1.51}
+  m_LocalRotation: {x: 0.17452203, y: -0, z: -0, w: 0.9846533}
+  m_LocalPosition: {x: -0.04, y: 1.454, z: -1.112}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 14.523, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 20.102, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2485,13 +2485,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoveStickControllable
   joystick: {fileID: 773002092}
-  mode: 0
-  plane: 0
-  moveSpeed: 1
-  relativeTo: {fileID: 330585546}
-  rotateSpeed: 90
-  maxPitch: 60
-  invertX: 0
+  neckBones:
+  - {fileID: 1171878855}
+  - {fileID: 1171878854}
+  - {fileID: 1171878853}
+  - {fileID: 1171878852}
+  - {fileID: 1171878851}
+  headBone: {fileID: 1171878849}
+  headShare: 0.25
+  bendSpeed: 90
+  maxBend: 55
+  returnToRest: 1
+  returnSpeed: 210
+  forwardAxis: {x: 1, y: 0, z: 0}
+  sideAxis: {x: 0, y: 0, z: 1}
+  invertX: 1
   invertY: 0
 --- !u!114 &1171878848
 MonoBehaviour:
@@ -2514,9 +2522,39 @@ MonoBehaviour:
   emissionColor: {r: 0.918, g: 0.761, b: 0.294, a: 1}
   minIntensity: 0.5
   maxIntensity: 1.5
+--- !u!4 &1171878849 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2261113718370589819, guid: c257f14c31ef0a946816523afc94708a, type: 3}
+  m_PrefabInstance: {fileID: 1171878844}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1171878850 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2055358402224329562, guid: c257f14c31ef0a946816523afc94708a, type: 3}
+  m_PrefabInstance: {fileID: 1171878844}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1171878851 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -7650808889129287981, guid: c257f14c31ef0a946816523afc94708a, type: 3}
+  m_PrefabInstance: {fileID: 1171878844}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1171878852 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7572350135052114045, guid: c257f14c31ef0a946816523afc94708a, type: 3}
+  m_PrefabInstance: {fileID: 1171878844}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1171878853 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5088868565511355844, guid: c257f14c31ef0a946816523afc94708a, type: 3}
+  m_PrefabInstance: {fileID: 1171878844}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1171878854 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7126387529348813166, guid: c257f14c31ef0a946816523afc94708a, type: 3}
+  m_PrefabInstance: {fileID: 1171878844}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1171878855 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -7720439713020681391, guid: c257f14c31ef0a946816523afc94708a, type: 3}
   m_PrefabInstance: {fileID: 1171878844}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1243318812
